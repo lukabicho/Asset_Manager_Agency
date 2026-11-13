@@ -65,6 +65,17 @@ services:
       timeout: 3s
       retries: 3
 
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: asset_redisinsight
+    restart: unless-stopped
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight_data:/data
+    depends_on:
+      - redis
+
   api:
     build:
       context: .
@@ -82,24 +93,25 @@ services:
       redis:
         condition: service_healthy
 
-  celery_worker:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      container_name: asset_celery_worker
-      restart: unless-stopped
-      command: celery -A app.core.celery_app worker --loglevel=info
-      env_file: .env
-      depends_on:
-        redis:
-          condition: service_healthy
-        mongodb:
-          condition: service_healthy
-        minio:
-          condition: service_healthy
+#  celery_worker:
+#      build:
+#        context: .
+#        dockerfile: Dockerfile
+#      container_name: asset_celery_worker
+#      restart: unless-stopped
+#      command: celery -A app.core.celery_app worker --loglevel=info
+#      env_file: .env
+#      depends_on:
+#        redis:
+#          condition: service_healthy
+#        mongodb:
+#          condition: service_healthy
+#        minio:
+#          condition: service_healthy
 
 volumes:
   postgres_data:
   mongodb_data:
   minio_data:
   redis_data:
+  redisinsight_data:
