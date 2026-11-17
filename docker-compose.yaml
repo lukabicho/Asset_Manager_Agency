@@ -76,6 +76,12 @@ services:
     depends_on:
       - redis
 
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
   api:
     build:
       context: .
@@ -83,6 +89,9 @@ services:
     container_name: asset_api
     restart: unless-stopped
     env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
     ports:
       - "8000:8000"
     volumes:
