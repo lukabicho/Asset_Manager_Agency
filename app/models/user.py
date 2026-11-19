@@ -2,9 +2,10 @@
 import uuid
 from sqlalchemy import Column, String, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from app.database.session import Base
+from app.models.agency import Agency
 
 class User(Base):
     __tablename__ = "users"
@@ -14,4 +15,4 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
     password: Mapped[str] =mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
-
+    agencies: Mapped[list["Agency"]] = relationship(back_populates="owner", cascade="all, delete-orphan", passive_deletes=True)

@@ -15,13 +15,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 def get_db():
     """Provides a database connection"""
-    db = SessionLocal()
-    try:
-        yield db
-    except Exception:
-        db.rollback()
-    finally:
-        db.close()
+    with SessionLocal() as db:
+        try:
+            yield db
+        except Exception:
+            db.rollback()
+            raise
 
 def get_user_manager(db: Session = Depends(get_db)): #Depends() is a fastapi class that ensures that get_db gets passed though. if get_db() fails, the function is not executed
     """Provides UserManager class from managers/user_manager with a database session"""
