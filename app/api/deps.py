@@ -10,6 +10,7 @@ from app.core.security import decode_token
 from app.managers.user_manager import UserManager
 from app.core.exceptions import InvalidCredentialsError
 from app.managers.redis_manager import RedisManager
+from app.managers.agency_manager import AgencyManager
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
@@ -47,4 +48,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), user_manager: UserMana
     return user
 
 def get_redis_manager():
-    return RedisManager
+    return RedisManager()
+
+def get_agency_manager(db: Session = Depends(get_db)):
+    return AgencyManager(db)

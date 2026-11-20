@@ -20,5 +20,5 @@ class Agency(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
     """Bidirectional ORM relationship to the owning `User` and 'Project' instances in this agency"""
-    owner: Mapped["User"] = relationship("User", back_populates="agencies")
-    projects: Mapped[list["Project"]] = relationship(back_populates="agency", cascade="all, delete-orphan", passive_deletes=True)
+    # owner: Mapped["User"] = relationship("User", back_populates="agencies")
+    # projects: Mapped[list["Project"]] = relationship(back_populates="agency", cascade="all, delete-orphan", passive_deletes=True)

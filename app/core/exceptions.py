@@ -21,3 +21,7 @@ class InvalidCredentialsError(AppException):
 class AssetStorageError(AppException):
     """Raised when an asset storage error occurs."""
     pass
+
+class AgencyNotFoundError(AppException):
+    """Raised when an agency is not found."""
+    pass

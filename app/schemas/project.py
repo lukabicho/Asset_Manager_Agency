@@ -1,3 +1,6 @@
+"""schemas for project request and response validation"""
+
+
 from pydantic import BaseModel, ConfigDict, Field
 
 class ProjectCreate(BaseModel):

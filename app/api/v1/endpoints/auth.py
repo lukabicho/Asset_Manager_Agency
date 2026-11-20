@@ -85,7 +85,7 @@ def refresh(body: RefreshTokenRequest, user_manager: UserManager = Depends(get_u
     )
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
-def logout(body: RefreshTokenRequest, current_user: User = Depends(get_current_user), redis_manager: RedisManager = Depends(get_redis_manager())):
+def logout(body: RefreshTokenRequest, current_user: User = Depends(get_current_user), redis_manager: RedisManager = Depends(get_redis_manager)):
     """Revoke the user's access and refresh token"""
     _validate_and_revoke_refresh_token(body.refresh_token, redis_manager)
     return None

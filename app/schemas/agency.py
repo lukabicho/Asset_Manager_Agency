@@ -1,3 +1,6 @@
+"""schemas for agency request and response validation"""
+import uuid
+from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 
 class AgencyCreate(BaseModel):
@@ -11,4 +14,5 @@ class AgencyResponse(BaseModel):
 
     id: int
     name: str
-    owner_id: int
+    owner_id: uuid.UUID
+    created_at: datetime
